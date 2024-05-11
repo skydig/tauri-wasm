@@ -5,6 +5,7 @@ use js_sys::Array;
 use serde::Serialize;
 use std::path::{Path, PathBuf};
 
+
 use crate::utils::ArrayIterator;
 #[derive(Debug, Clone, Copy, Hash, Serialize)]
 struct DialogFilter<'a> {
@@ -25,7 +26,7 @@ pub struct FileDialogBuilder<'a> {
     multiple: bool,
     recursive: bool,
 }
-
+use serde::Deserialize;
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct FileResponse {
