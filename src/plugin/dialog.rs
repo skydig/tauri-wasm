@@ -145,7 +145,7 @@ impl<'a> FileDialogBuilder<'a> {
     pub async fn pick_file(&self) -> crate::Result<Option<PathBuf>> {
         let raw = inner::open(serde_wasm_bindgen::to_value(&self)?).await?;
         let fr:FileResponse = serde_wasm_bindgen::from_value(raw)?;
-        Ok(fr.path)
+        Ok(Some(fr.path))
     }
 
     /// Shows the dialog to select multiple files.
