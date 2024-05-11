@@ -26,6 +26,19 @@ pub struct FileDialogBuilder<'a> {
     recursive: bool,
 }
 
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct FileResponse {
+    pub base64_data: Option<String>,
+    pub duration: Option<u64>,
+    pub height: Option<usize>,
+    pub width: Option<usize>,
+    pub mime_type: Option<String>,
+    pub modified_at: Option<u64>,
+    pub name: Option<String>,
+    pub path: PathBuf,
+    pub size: u64,
+}
 impl<'a> FileDialogBuilder<'a> {
     /// Gets the default file dialog builder.
     pub fn new() -> Self {
@@ -128,10 +141,11 @@ impl<'a> FileDialogBuilder<'a> {
     /// # }
     /// ```
     ///
+    
     pub async fn pick_file(&self) -> crate::Result<Option<PathBuf>> {
         let raw = inner::open(serde_wasm_bindgen::to_value(&self)?).await?;
-
-        Ok(serde_wasm_bindgen::from_value(raw)?)
+        let fr:FileResponse = serde_wasm_bindgen::from_value(raw)?;
+        Ok(fr.path)
     }
 
     /// Shows the dialog to select multiple files.
